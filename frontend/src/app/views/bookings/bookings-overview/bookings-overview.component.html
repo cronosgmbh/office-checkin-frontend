@@ -1,0 +1,111 @@
+<app-page [headline]="'Buchungsübersicht'">
+  <h1>Übersicht aller Buchungen <span
+    *ngIf="selectedDate && selectedDate != ''">am {{selectedDate | localizedDate}}</span></h1>
+  <div style="margin-top: 16px;">
+    <mat-form-field appearance="outline">
+      <mat-label>Datum auswählen</mat-label>
+      <input matInput [matDatepicker]="picker" (dateChange)="dateSelectionChanged($event)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="bookings && showingAllBookings">
+    <div *ngIf="bookings.length > 0">
+      <table mat-table [dataSource]="bookings">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>{{'BOOKINGS.LIST.TABLE.HEADER.CHECK_IN_DATE' | translate}}</th>
+          <td mat-cell *matCellDef="let element" class="strong"> {{element.date | localizedDate }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>E-Mail</th>
+          <td mat-cell *matCellDef="let element" class="strong"> {{element.user_name }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef>Fläche</th>
+          <td mat-cell *matCellDef="let element" class="strong"> {{element.area_data.name }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="bookingsByArea && !showingAllBookings">
+    <mat-card style="margin-bottom: 16px;">
+      <mat-card-header>
+        <h2 mat-card-title class="area-title"><span class="usage-indicator"
+                                                    [ngClass]="getUsageClass(46, bookingsForDateCount)"></span>cronos
+          Hauptgebäude</h2>
+        <h5 mat-card-subtitle>Auslastung: {{bookingsForDateCount}} / 46</h5>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="notification" *ngIf="visits.length == 0">
+          Für den {{selectedDate | localizedDate}} sind keine Besucher angemeldet.
+        </div>
+        <div class="visits-container" *ngIf="visits.length > 0">
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Angemeldete Besucher
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <table style="width: 100%;">
+                <tr>
+                  <td></td>
+                  <td>Name</td>
+                  <td>Unternehmen</td>
+                  <td>TG</td>
+                  <td>Supervisor</td>
+                  <td style="text-align: right">Aktionen</td>
+                </tr>
+                <tr *ngFor="let visit of visits">
+                  <td>
+                    <mat-icon *ngIf="visit.has_accepted" svgIcon="checkbox-marked-circle-outline"></mat-icon>
+                    <mat-icon *ngIf="!visit.has_accepted" svgIcon="send-circle-outline"></mat-icon>
+                  </td>
+                  <td>{{visit.visitor.FirstName + ' ' + visit.visitor.LastName}}</td>
+                  <td>{{visit.visitor.Company}}</td>
+                  <td><mat-icon svgIcon="check" *ngIf="visit.needs_parking_space"></mat-icon></td>
+                  <td>{{visit.supervisor.display_name}}</td>
+                  <td style="text-align: right;">
+                    <button mat-icon-button>
+                      <mat-icon svgIcon="information-outline" (click)="infoForVisit(visit)"></mat-icon>
+                    </button>
+                    <button mat-icon-button >
+                      <mat-icon svgIcon="email-outline" (click)="resendInvitationMail(visit)"></mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                      <mat-icon svgIcon="delete" (click)="deleteVisit(visit)"></mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <button mat-stroked-button color="primary" style="margin: 16px 0"
+                  (click)="printCardsForDate()">NAMENSSCHILDER DRUCKEN</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div *ngFor="let area of bookingsByArea">
+      <mat-card style="margin-bottom: 16px;">
+        <mat-card-header>
+          <h2 mat-card-title class="area-title"><span class="usage-indicator"
+                                                      [ngClass]="getUsageClass(area.capacity, area.bookings.length)"></span>{{area.name}}
+          </h2>
+          <h5 mat-card-subtitle>Auslastung: {{area.bookings.length}} / {{area.capacity}}</h5>
+        </mat-card-header>
+        <mat-card-content>
+          <span *ngFor="let email of area.bookings" class="single-user internal">{{ email }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+</app-page>

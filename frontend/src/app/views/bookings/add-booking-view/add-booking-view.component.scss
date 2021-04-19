@@ -1,0 +1,97 @@
+@import "src/styles/theme";
+@import "src/styles/mixins/padding";
+
+:host {
+  .mat-radio-group {
+    display: flex;
+    flex-flow: column nowrap;
+
+    .item-container {
+      display: flex;
+      flex-wrap: wrap;
+      .mat-radio-button {
+        @include padding($top: 1rem, $bottom: 1rem);
+        flex: 0 50%;
+      }
+    }
+  }
+
+
+  ::ng-deep {
+    .mat-stepper-vertical {
+
+      .mat-step-header {
+        .mat-step-label {
+          font-size: 1rem;
+
+          &.mat-step-label-selected {
+            font-family: $font-bold;
+          }
+        }
+      }
+
+      .mat-vertical-stepper-content {
+        .calendar-step {
+          @include padding(0, 0, 0, 0);
+        }
+      }
+    }
+
+    mat-radio-button {
+      .mat-radio-label-content {
+        width: 100%;
+      }
+    }
+
+  }
+}
+
+.button-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 2rem;
+}
+
+
+.forecast-table {
+  width: 100%;
+  .forecast-item {
+    margin-bottom: 6px;
+    border-radius: 6px;
+    padding: 5px;
+    &.free {
+      background-color: #8fff8f;
+    }
+    &.used {
+      background-color: #ffff23;
+    }
+    &.full {
+      background-color: #f44336;
+      p {
+        color: white;
+      }
+    }
+    &.by-self {
+      background-color: #007aff;
+      p {
+        color: white;
+      }
+    }
+    p {
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+.daterange-picker {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin: 0 1rem 1.3rem 1rem;
+  }
+}

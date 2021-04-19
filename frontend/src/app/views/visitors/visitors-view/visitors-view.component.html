@@ -1,0 +1,42 @@
+<app-page>
+  <h2>Übersicht der Besucher</h2>
+  <div *ngIf="visits">
+    <table mat-table [dataSource]="visits">
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>{{'BOOKINGS.LIST.TABLE.HEADER.CHECK_IN_DATE' | translate}}</th>
+        <td mat-cell *matCellDef="let element" class="strong"> {{element.date | localizedDate }} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="visitor">
+        <th mat-header-cell *matHeaderCellDef>Besucher</th>
+        <td mat-cell *matCellDef="let element"> {{element.visitor.FirstName + ' ' + element.visitor.LastName}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="tg">
+        <th mat-header-cell *matHeaderCellDef>TG gebucht</th>
+        <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="element.needs_parking_space" svgIcon="check"></mat-icon> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef
+            class="text-align-right">{{'BOOKINGS.LIST.TABLE.HEADER.ACTION' | translate}}</th>
+        <td mat-cell *matCellDef="let element" class="text-align-right">
+          <button mat-icon-button (click)="requestDeleteVisit(element.ID)" [matTooltip]="'Buchung löschen'">
+            <mat-icon svgIcon="delete"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div *ngIf="visits && visits.length == 0" style="margin-top: 64px; text-align: center;">
+    <h3>Noch keine Buchungen vorhanden</h3>
+    <p>Starte, indem du deine erste Buchung anlegst.</p>
+    <button (click)="goToBookVisit()" mat-stroked-button color="primary">BUCHUNG HINZUFÜGEN</button>
+  </div>
+</app-page>

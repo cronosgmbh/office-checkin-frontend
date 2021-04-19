@@ -1,0 +1,123 @@
+<app-page *ngIf="hasFetched && !hasError">
+  <div class="german-notices" *ngIf="currentLang == 'de'">
+    <h2>Datenschutz und Corona-Regeln</h2>
+    <p>Bitte lesen und bestätigen Sie die Datenschutzhinweise und Corona-Regeln für Ihren Besuch bei uns.</p>
+    <div style="margin: 16px 0">
+      <table class="table-visit-glance">
+        <tr>
+          <td>Datum: </td>
+          <td>
+            {{ this.visit.date | localizedDate}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Ihr Ansprechpartner:
+          </td>
+          <td>
+            {{ this.visit.supervisor.first_name + ' ' + this.visit.supervisor.last_name}}
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <p>
+        Hallo {{this.visit.visitor.FirstName + ' ' + this.visit.visitor.LastName}},<br><br>
+        Um die Gesundheit und das Wohlbefinden unserer Kunden und Partner in den cronos-Geschäftsstellen während Kundenmeetings zu gewährleisten und das Risiko neuer COVID-19-Infektionen zu minimieren, haben wir einige Regeln erstellt. Wir bitten Sie, diese strikt einzuhalten.
+        <br><br>
+        Zur Vorbereitung eines Kundenmeetings in einer cronos-Geschäftsstelle werden von allen Teilnehmern der Vor- und Zuname, die E-Mail-Adresse sowie vollständige Firmierung zur eventuellen Nachverfolgung einer Infektionskette benötigt.
+        <br><br>
+        Diese Daten werden 4 Wochen bei uns gespeichert und danach vernichtet.
+        <br><br>
+        Physische Kundenmeetings unterliegen strikten Regeln:
+        <br><br>
+      </p>
+      <ul>
+        <li>Das Tragen eines Mund-Nasen-Schutzes beim Betreten einer cronos-Geschäftsstelle ist Pflicht</li>
+        <li>Die Abstandsregeln sind einzuhalten (cronos-Vorgabe 2 m/6.5 feet)</li>
+        <li>Einhaltung wirksamer hygienischer Verhaltensregeln (insbesondere Handhygiene)</li>
+        <li>Verzichten auf Händedruck</li>
+        <li>Im Meetingraum nur die vorgegebenen Plätze nutzen</li>
+        <li>Wir bitten um möglichst pünktliches Erscheinen</li>
+        <li>Es dürfen nur vorangemeldete Personen am Meeting teilnehmen. Zusätzliche Personen können nicht mit eingelassen werden</li>
+        <li>Teilnehmer müssen einen negativen corona-Selbst-Test vorweisen. Hierzu bietet cronos die Möglichkeit diesen im Vorfeld des Meeting in den Räumlichkeiten kostenfrei durchzuführen. </li>
+      </ul>
+      <p>
+        Covid-19-Kontakte und -Symptome:
+      </p>
+      <ul>
+        <li>Personen, die Symptome aufweisen, die auf eine COVID-19-Infektion hinweisen, dürfen die cronos-Geschäftsstelle nicht betreten. Zu den typischen grippeähnlichen Symptomen gehören unter anderem Fieber, Husten, Atemnot oder Atembeschwerden.</li>
+        <li>Jede Person, die mit einem bestätigten COVID-19-Fall in Kontakt gekommen ist, wird gebeten, nicht an Besprechungen vor Ort teilzunehmen.</li>
+        <li>Wenn innerhalb von zwei Wochen nach einem Besuch eine COVID-19-Infektion auftritt, müssen die Teilnehmer cronos informieren. cronos sammelt die Kontaktdaten aller Teilnehmer im Voraus um sicher zu stellen, dass wir Kontaktpersonen in diesem Fall informieren können.</li>
+      </ul>
+      <h4>Bestätigung</h4>
+      <p>Hiermit bestätige ich, dass ich die Vorgaben gelesen habe und mich dementsprechend verhalten werde. Des Weiteren bin ich damit einverstanden, dass folgende Daten (Nachname, Vorname, Firma, Telefonnummer, Mailadresse) elektronisch gespeichert werden dürfen. </p>
+    </div>
+    <div class="action-container">
+      <button mat-raised-button color="primary" style="margin-right: 16px;" (click)="acceptInvitation()" *ngIf="!isAccepted">BESTÄTIGEN</button>
+      <h4 *ngIf="isAccepted">Die Anmeldung wurde bestätigt.</h4>
+    </div>
+  </div>
+  <div class="english-notices" *ngIf="currentLang != 'de'">
+    <h2>Visitor information</h2>
+    <table class="table-visit-glance">
+      <tr>
+        <td>Date: </td>
+        <td>
+          {{ this.visit.date | localizedDate}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Your supervisor:
+        </td>
+        <td>
+          {{ this.visit.supervisor.first_name + ' ' + this.visit.supervisor.last_name}}
+        </td>
+      </tr>
+    </table>
+    <div>
+      <p>
+        Dear {{this.visit.visitor.FirstName + " " + this.visit.visitor.LastName}},<br><br>
+        To ensure the health and well-being of our customers and partners at cronos’s offices during customer meetings and to minimize the risk of new COVID-19 infections, we have put rules in place that must be strictly observed when planning meetings.
+        <br><br>
+        To prepare a customer meeting at an cronos office, all participants need to provide the following information: first name, last name, e-mail address, and company name. This is required in case we need to track a possible infection chain.
+        <br><br>
+        cronos will store this data for four weeks and then delete it.
+        <br><br>
+        Physical customer meetings are subject to strict rules:
+      </p>
+      <ul>
+        <li>It is mandatory to wear a mask when entering an cronos office. </li>
+        <li>Keep your distance (cronos specification 2 m / 6.5 feet) </li>
+        <li>Compliance with current hygiene and conduct rules (frequently washing hands) </li>
+        <li>No handshakes</li>
+        <li>Use only the specified spaces in the meeting room</li>
+        <li>We kindly ask you to arrive at time</li>
+        <li>Only pre-registered people are allowed to attend the meeting room; no other persons will be admitted</li>
+        <li>As a member of a cronos meeting you have to be negativ tested for corona. cronos provides you the possibility to make tests at the meeting location.</li>
+      </ul>
+      <p>
+        In addition, we offe ryou the possibility to perform a self-test in our promies, which we provide free of charge.
+        <br><br>
+        Covid-19 Contact and Symptoms
+      </p>
+      <ul>
+        <li>Any individual exhibiting symptoms indicative of a COVID-19 infection will not be allowed to enter the cronos. These typical flu-like symptoms include but are not limited to fever, cough, shortness of breath, or difficulty breathing.</li>
+        <li>Any individual who has come in contact with a confirmed COVID-19 case is asked to refrain from attending on-site meetings.</li>
+        <li>If any participant contracts a COVID-19 infection within two weeks of a visit, they are required to inform cronos. Cronos will collect the contact details of all participants in advance to ensure a clear line of communication can be maintained.</li>
+      </ul>
+      <h4>Confirmation</h4>
+      <p>I hereby confirm that I have read the instructions and will act accordingly.</p>
+    </div>
+    <div class="action-container">
+      <button mat-raised-button color="primary" style="margin-right: 16px;" (click)="acceptInvitation()" *ngIf="!isAccepted">CONFIRM</button>
+      <h4 *ngIf="isAccepted">The instructions have been confirmed.</h4>
+    </div>
+  </div>
+</app-page>
+<app-page *ngIf="hasFetched && hasError">
+  <h2>Datenschutz und Corona-Regeln</h2>
+  <p>Beim Laden der Daten ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.</p>
+</app-page>

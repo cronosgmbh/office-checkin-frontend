@@ -1,0 +1,84 @@
+<app-page>
+  <h2>Neuen Besucher-Aufenthalt buchen</h2>
+  <p>Pro Tag können aktuell maximal 4 Gäste vor Ort registriert sein.<br> <strong>Bitte beachte:</strong> Du musst selbst eine Buchung am gewünschten Tag vorweisen, bevor du einen Gastplatz buchen kannst.</p>
+  <mat-vertical-stepper [linear]="false">
+    <mat-step>
+      <ng-template matStepLabel>Datum auswählen</ng-template>
+      <ng-template matStepperIcon="edit">
+        <mat-icon svgIcon="check"></mat-icon>
+      </ng-template>
+      <app-custom-date-picker
+                              [dateIsSelectable]="isDateBookable"
+                              [dateClass]="dateClass"
+                              (dateSelectionChanged)="dateChanged($event)"
+                              [maxSelectableDates]="1"
+                              dateInputLabel="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.LABEL' | translate}}"
+                              dateInputHint="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.HINT' | translate}}"
+                              datesToSelectRemainingLabel="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.HINT_2' | translate}}"
+                              openCalendarButtonLabel="{{'BOOKINGS.ADD.BUTTONS.OPEN_CALENDAR.TITLE' | translate}}"></app-custom-date-picker>
+      <div style="margin-top: 16px; margin-bottom: 16px;">
+        <button mat-button matStepperNext [disabled]="selectedDate == ''">{{'COMMON.BUTTONS.NEXT_STEP' | translate}}</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Besucher auswählen</ng-template>
+      <ng-template matStepperIcon="edit">
+        <mat-icon svgIcon="check"></mat-icon>
+      </ng-template>
+      <form [formGroup]="visitorForm">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredVisitors | async" [value]="option.Email" (onSelectionChange)="selectedUser(option)">
+            {{option.Email}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-form-field appearance="outline">
+          <mat-label>E-Mail Adresse</mat-label>
+          <input matInput name="email" formControlName="Email" [matAutocomplete]="auto" placeholder="s.meyer@example.com">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Vorname</mat-label>
+          <input matInput name="first-name" formControlName="FirstName" placeholder="Steffie">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Nachname</mat-label>
+          <input matInput name="last-name" formControlName="LastName" placeholder="Meyer">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Telefonnummer</mat-label>
+          <input matInput name="phone" formControlName="Phone" placeholder="0251 399660">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Unternehmen</mat-label>
+          <input matInput name="company" formControlName="Company" placeholder="Stadtwerke Testingen">
+        </mat-form-field>
+      </form>
+      <div style="margin-top: 16px; margin-bottom: 16px;">
+        <button mat-button matStepperPrevious>{{'COMMON.BUTTONS.PREVIOUS_STEP' | translate}}</button>
+        <button mat-button matStepperNext [disabled]="!visitorForm.valid">{{'COMMON.BUTTONS.NEXT_STEP' | translate}}</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Weitere Informationen und Abschließen</ng-template>
+      <ng-template matStepperIcon="edit">
+        <mat-icon svgIcon="check"></mat-icon>
+      </ng-template>
+
+      <div>
+        <form [formGroup]="additionalInfoForm">
+          <section style="margin: 12px 0">
+            <mat-checkbox style="margin: 12px 0" formControlName="needsParkingSpace">Tiefgaragenstellplatz reservieren</mat-checkbox>
+          </section>
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Weiteres zur Buchung</mat-label>
+            <textarea matInput formControlName="additionalInformation"></textarea>
+          </mat-form-field>
+        </form>
+
+      </div>
+      <div>
+        <button mat-button color="primary" (click)="addBooking()" [disabled]="!visitorForm.valid || selectedDate == ''">BUCHUNG BESTÄTIGEN</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+</app-page>

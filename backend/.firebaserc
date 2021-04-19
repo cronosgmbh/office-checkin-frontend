@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "dev": "office-checkin-9a769"
+  },
+  "targets": {
+    "office-checkin-9a769": {
+      "hosting": {
+        "dev": [
+          "office-checkin-9a769"
+        ]
+      }
+    }
+  }
+}

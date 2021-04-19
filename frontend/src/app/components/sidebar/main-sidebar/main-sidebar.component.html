@@ -1,0 +1,47 @@
+<div class="content">
+  <h1>{{'SIDEBAR.MAIN.TITLE' | translate}}</h1>
+
+  <div class="user" *ngIf="user$ | async as user" routerLink="/app/profile">
+    <app-avatar [name]="user.printName" aria-hidden="true"></app-avatar>
+    <span class="flex-nogrow">{{user.toString()}}</span>
+  </div>
+
+  <button mat-raised-button color="primary" close-sidebar (click)="addBooking()" class="margin-top margin-bottom">
+    {{'SIDEBAR.MAIN.BUTTONS.ADD_BOOKING.TITLE' | translate}}
+  </button>
+
+  <button mat-raised-button color="warn" close-sidebar (click)="addVisitor()" class="margin-top margin-bottom" style="margin-top: 10px;">
+    BESUCHER-AUFENTHALT
+  </button>
+
+  <nav class="menu margin-top margin-bottom">
+    <ul>
+      <li>
+        <a [routerLink]="Navigation.BOOKINGS" routerLinkActive="active" close-sidebar>
+          <mat-icon svgIcon="calendar-range"></mat-icon>
+          <span>{{'SIDEBAR.MAIN.NAV.MY_BOOKINGS.TITLE' | translate}}</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="Navigation.VISITORS" routerLinkActive="active" close-sidebar>
+          <mat-icon svgIcon="account-clock"></mat-icon>
+          <span>Meine Besucher</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="Navigation.BOOKINGS_ADMIN" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" close-sidebar *ngIf="authService.isAdmin">
+          <mat-icon svgIcon="view-dashboard-outline"></mat-icon>
+          <span>Gesamtübersicht</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="Navigation.COVID_BACKTRACING" routerLinkActive="active" close-sidebar *ngIf="authService.isAdmin">
+          <mat-icon svgIcon="virus-outline"></mat-icon>
+          <span>COVID-Backtracing</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <app-sidebar-footer></app-sidebar-footer>
+</div>

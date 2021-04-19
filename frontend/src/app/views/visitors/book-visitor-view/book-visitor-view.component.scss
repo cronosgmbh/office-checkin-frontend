@@ -1,0 +1,13 @@
+.daterange-picker {
+  display: flex;
+  align-items: center;
+  mat-icon {
+    margin: 0 1rem 1.3rem 1rem;
+  }
+}
+
+form {
+  mat-form-field {
+    width: 100%;
+  }
+}

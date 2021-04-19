@@ -1,0 +1,37 @@
+<app-page>
+  <h2>{{'COVID_BT.TITLE' | translate }}</h2>
+  <p>{{'COVID_BT.DESCRIPTION' | translate }}</p>
+  <div>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>{{'COVID_BT.FORM.MAIL_LABEL' | translate }}</mat-label>
+      <input matInput [(ngModel)]="mailAddress">
+      <button mat-icon-button matSuffix (click)="lookup()">
+        <mat-icon svgIcon="account-search-outline"></mat-icon>
+      </button>
+    </mat-form-field>
+    <app-notification-box *ngIf="isLoading" icon="timer-sand"
+                          message="{{'COMMON.LOADING' | translate}}"></app-notification-box>
+    <app-notification-box *ngIf="!isLoading && backtracingResult && backtracingResult.data.length == 0" icon="emoticon-neutral-online"
+                          message="{{'COVID_BT.SEARCH_RESULTS.NO_RESULTS' | translate}}"></app-notification-box>
+    <div *ngIf="!isLoading && backtracingResult && backtracingResult.data.length > 0">
+      <table mat-table [dataSource]="backtracingResult.data" class="mat-elevation-z3">
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> {{'COVID_BT.TABLE.DATE_HEAD' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.date | localizedDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> {{'COVID_BT.TABLE.EMAIL_HEAD' | translate}}</th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef> {{'COVID_BT.TABLE.AREA_HEAD' | translate}} </th>
+          <td mat-cell *matCellDef="let element"> {{element.area_name}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</app-page>

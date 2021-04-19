@@ -1,0 +1,189 @@
+<app-page>
+  <h2>{{'BOOKINGS.ADD.PAGE_TITLE' | translate}}</h2>
+
+  <p [innerHTML]="'BOOKINGS.ADD.PAGE_DESCRIPTION' | translate"></p>
+
+  <div>
+    <app-notification-box *ngIf="cronosAreas && cronosAreas.length === 0" icon="emoticon-sad-outline"
+                          message="{{'BOOKINGS.ADD.INFO_NO_AREAS_JOINED' | translate}}"></app-notification-box>
+    <app-notification-box *ngIf="cronosAreas === null" icon="emoticon-sad-outline"
+                          message="{{'AREAS.LIST.INFO_NO_BOOKING_ITEMS' | translate}}"></app-notification-box>
+
+    <mat-vertical-stepper linear #stepper *ngIf="cronosAreas && cronosAreas.length > 0">
+      <mat-step [stepControl]="areaFormGroup">
+        <form [formGroup]="areaFormGroup">
+          <ng-template matStepLabel>{{'BOOKINGS.ADD.FORM.FIELDS.AREA.TITLE' | translate}}</ng-template>
+          <ng-template matStepperIcon="edit">
+            <mat-icon svgIcon="check"></mat-icon>
+          </ng-template>
+          <mat-radio-group color="primary" formControlName="areaControl" (change)="areaSelected($event)">
+
+            <mat-accordion style="margin-top: 8px;">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Münster</mat-panel-title>
+                </mat-expansion-panel-header>
+                <img src="assets/images/cronos.png" alt="Grundriss" style="width: 100%; margin-top: 6px; margin-bottom: 6px;">
+                <div class="item-container">
+                  <mat-radio-button *ngFor="let area of cronosMSAreas" [value]="area.id">
+                    <div>{{area.name}} <span *ngIf="area.capacity">(Max. {{ area.capacity }} Personen)</span></div>
+                    <div class="sub-text" *ngIf="area.address">{{area.address}}</div>
+                    <mat-expansion-panel *ngIf="selectedArea === area.id" style="margin-top: 8px;">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          Auslastung für die nächsten 10 Werktage
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div *ngIf="forecast && forecast.area.id === selectedArea" class="forecast-table">
+                        Für die Buchung im nächsten Schritt ein Datum auswählen.
+                        <div class="forecast-item" *ngFor="let day of forecast.bookings" [ngClass]="forecastClass(forecast.area.capacity, day)">
+                          <p>{{day.date | weekday}}, {{day.date | localizedDate}} - {{day.booked_seats}} / {{forecast.area.capacity}}</p>
+                        </div>
+                      </div>
+                      <button mat-button color="warn" (click)="forecastInfo()">WEITERE INFORMATIONEN</button>
+                    </mat-expansion-panel>
+                  </mat-radio-button>
+                </div>
+
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Hamburg</mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-button *ngFor="let area of cronosHHAreas" [value]="area.id">
+                  <div>{{area.name}} <span *ngIf="area.capacity">(Max. {{ area.capacity }} Personen)</span></div>
+                  <div class="sub-text" *ngIf="area.address">{{area.address}}</div>
+                  <mat-expansion-panel *ngIf="selectedArea === area.id" style="margin-top: 8px;">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Auslastung für die nächsten 10 Werktage
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="forecast && forecast.area.id === selectedArea" class="forecast-table">
+                      Für die Buchung im nächsten Schritt ein Datum auswählen.
+                      <div class="forecast-item" *ngFor="let day of forecast.bookings" [ngClass]="forecastClass(forecast.area.capacity, day)">
+                        <p>{{day.date | weekday}}, {{day.date | localizedDate}} - {{day.booked_seats}} / {{forecast.area.capacity}}</p>
+                      </div>
+                    </div>
+                    <button mat-button color="warn" (click)="forecastInfo()">WEITERE INFORMATIONEN</button>
+                  </mat-expansion-panel>
+                </mat-radio-button>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>München</mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-button *ngFor="let area of cronosMAreas" [value]="area.id">
+                  <div>{{area.name}} <span *ngIf="area.capacity">(Max. {{ area.capacity }} Personen)</span></div>
+                  <div class="sub-text" *ngIf="area.address">{{area.address}}</div>
+                  <mat-expansion-panel *ngIf="selectedArea === area.id" style="margin-top: 8px;">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Auslastung für die nächsten 10 Werktage
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="forecast && forecast.area.id === selectedArea" class="forecast-table">
+                      Für die Buchung im nächsten Schritt ein Datum auswählen.
+                      <div class="forecast-item" *ngFor="let day of forecast.bookings" [ngClass]="forecastClass(forecast.area.capacity, day)">
+                        <p>{{day.date | weekday}}, {{day.date | localizedDate}} - {{day.booked_seats}} / {{forecast.area.capacity}}</p>
+                      </div>
+                    </div>
+                    <button mat-button color="warn" (click)="forecastInfo()">WEITERE INFORMATIONEN</button>
+                  </mat-expansion-panel>
+                </mat-radio-button>
+              </mat-expansion-panel>
+
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Wien</mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-radio-button *ngFor="let area of cronosViennaAreas" [value]="area.id">
+                  <div>{{area.name}} <span *ngIf="area.capacity">(Max. {{ area.capacity }} Personen)</span></div>
+                  <div class="sub-text" *ngIf="area.address">{{area.address}}</div>
+                  <mat-expansion-panel *ngIf="selectedArea === area.id" style="margin-top: 8px;">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Auslastung für die nächsten 10 Werktage
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="forecast && forecast.area.id === selectedArea" class="forecast-table">
+                      Für die Buchung im nächsten Schritt ein Datum auswählen.
+                      <div class="forecast-item" *ngFor="let day of forecast.bookings" [ngClass]="forecastClass(forecast.area.capacity, day)">
+                        <p>{{day.date | weekday}}, {{day.date | localizedDate}} - {{day.booked_seats}} / {{forecast.area.capacity}}</p>
+                      </div>
+                    </div>
+                    <button mat-button color="warn" (click)="forecastInfo()">WEITERE INFORMATIONEN</button>
+                  </mat-expansion-panel>
+                </mat-radio-button>
+              </mat-expansion-panel>
+
+            </mat-accordion>
+          </mat-radio-group>
+          <mat-error *ngIf="areaFormGroup.invalid" style="margin-top: 8px;">{{'BOOKINGS.ADD.FORM.FIELDS.AREA.ERROR' | translate}}</mat-error>
+
+          <div class="text-align-left margin-top">
+            <button mat-stroked-button matStepperNext color="primary"
+                    [disabled]="areaFormGroup.controls.areaControl.invalid">{{'COMMON.BUTTONS.NEXT_STEP' | translate}}</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="dateFormGroup" class="calendar-step">
+        <form [formGroup]="dateFormGroup">
+          <ng-template matStepLabel>{{'BOOKINGS.ADD.FORM.FIELDS.DATE.TITLE' | translate}}</ng-template>
+          <ng-template matStepperIcon="edit">
+            <mat-icon svgIcon="check"></mat-icon>
+          </ng-template>
+          <div style="margin-top: 16px; ">
+            <p>Es kann nur eine der beiden Optionen ausgewählt werden.</p>
+            <mat-accordion>
+              <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Einzelne Daten auswählen</mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-custom-date-picker (dateSelectionChanged)="dateSelectionChanged($event)"
+                                        [dateIsSelectable]="isDateBookable"
+                                        [dateClass]="dateClass"
+                                        [maxSelectableDates]="maxBookableDays"
+                                        dateInputLabel="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.LABEL' | translate}}"
+                                        dateInputHint="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.HINT' | translate}}"
+                                        datesToSelectRemainingLabel="{{'BOOKINGS.ADD.FORM.FIELDS.DATE.HINT_2' | translate}}"
+                                        openCalendarButtonLabel="{{'BOOKINGS.ADD.BUTTONS.OPEN_CALENDAR.TITLE' | translate}}"></app-custom-date-picker>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>Zeitraum auswählen</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div style="display: flex; align-items: center;" class="daterange-picker">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Startdatum</mat-label>
+                    <input matInput [matDatepicker]="pickerStart" (dateChange)="startDateChanged($event)">
+                    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerStart></mat-datepicker>
+                  </mat-form-field>
+                  <mat-icon svgIcon="arrow-right-bold" style="margin-bottom: 1.3rem;"></mat-icon>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Enddatum</mat-label>
+                    <input matInput [matDatepicker]="pickerEnd" (dateChange)="endDateChanged($event)">
+                    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEnd></mat-datepicker>
+                  </mat-form-field>
+                </div>
+                <p>Samstag und Sonntag werden in der Buchung automatisch übersprungen.</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          <div class="button-row">
+            <div class="margin-bottom margin-right">
+              <button mat-stroked-button matStepperPrevious
+                      color="primary">{{'COMMON.BUTTONS.PREVIOUS_STEP' | translate}}</button>
+            </div>
+            <mat-spinner-button (btnClick)="bookArea()" [options]="confirmBookingBtnOptions"
+                                class="margin-bottom"></mat-spinner-button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</app-page>

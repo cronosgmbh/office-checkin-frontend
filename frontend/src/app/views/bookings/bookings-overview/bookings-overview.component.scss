@@ -1,0 +1,36 @@
+
+:host {
+
+  .mat-table {
+    width: 100%;
+  }
+}
+
+.single-user {
+  font-size: 1.2rem;
+  font-weight: bolder;
+  display: block;
+  padding: 2px;
+}
+
+.area-title {
+  display: flex;
+  align-items: center;
+  .usage-indicator {
+    display:inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: .75rem;
+    border-radius: 50%;
+    &.full {
+      background-color: #f44336;
+    }
+    &.used {
+      background-color: #ffff23;
+    }
+    &.almost-empty {
+      background-color: yellowgreen;
+    }
+  }
+
+}

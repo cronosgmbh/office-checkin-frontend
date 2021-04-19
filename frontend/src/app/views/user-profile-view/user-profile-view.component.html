@@ -1,0 +1,45 @@
+<app-page>
+  <h2>{{'USER_PROFILE.PAGE_TITLE' | translate}}</h2>
+
+  <p>{{'USER_PROFILE.PAGE_DESCRIPTION' | translate}}</p>
+
+  <div class="flex" *ngIf="userProfileForm">
+    <h3 class="margin-top">{{'USER_PROFILE.FORM.TITLE' | translate}}</h3>
+    <form [formGroup]="userProfileForm" class="flex flex-full margin-top" (submit)="save()">
+
+      <div class="flex flex-row">
+        <mat-form-field appearance="outline">
+          <mat-label>{{'USER_PROFILE.FORM.FIELDS.FIRSTNAME.LABEL' | translate}}</mat-label>
+          <input matInput name="firstname" formControlName="first_name">
+          <mat-error *ngIf="fieldIsInvalid('first_name')">
+            {{'USER_PROFILE.FORM.FIELDS.FIRSTNAME.ERROR' | translate}}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="flex-space"></div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{'USER_PROFILE.FORM.FIELDS.LASTNAME.LABEL' | translate}}</mat-label>
+          <input matInput name="lastname" formControlName="last_name">
+          <mat-error *ngIf="fieldIsInvalid('last_name')">
+            {{'USER_PROFILE.FORM.FIELDS.LASTNAME.ERROR' | translate}}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div class="text-align-right margin-top">
+        <mat-spinner-button [options]="saveBtnOptions" [disabled]="userProfileForm.invalid"></mat-spinner-button>
+      </div>
+    </form>
+
+    <div class="flex-space"></div>
+
+    <div class="margin-top">
+      <a [routerLink]="Navigation.BOOKINGS" class="icon-link">
+        <mat-icon svgIcon="arrow-left"></mat-icon>
+        <span>{{'USER_PROFILE.MY_BOOKINGS.LINK' | translate}}</span>
+      </a>
+    </div>
+  </div>
+</app-page>

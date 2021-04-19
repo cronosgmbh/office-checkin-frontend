@@ -1,0 +1,5 @@
+- Simona-Claudia Liebig <simona-claudia.liebig@innogy.com>
+- Thomas Vengels <thomas.vengels@eon.com>
+- Oliver Charlow <oliver.charlow@innogy.com>
+- Jens Schmidt <jens.schmidt@eon.com>
+- Tim Sippel <t.sippel@cronos.de>
