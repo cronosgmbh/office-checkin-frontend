@@ -7,13 +7,13 @@ export const environment = {
   api_url: 'http://locaLhost:3000/v1',
   appVersion: require('../../package.json').version + '-dev',
   firebase: {
-    apiKey: 'AIzaSyCgwv6k5tMT9PiNqXHIijDO5npxIZUXd0o',
-    authDomain: 'office-checkin-9a769.firebaseapp.com',
-    databaseURL: 'https://office-checkin-9a769.firebaseio.com',
-    projectId: 'office-checkin-9a769',
-    storageBucket: 'office-checkin-9a769.appspot.com',
-    messagingSenderId: '1007876633123',
-    appId: '1:1007876633123:web:79d2efa76c419d96a5b796'
+    apiKey: 'apiKey',
+    authDomain: 'authdomain.firebaseapp.com',
+    databaseURL: 'https://databaseURL.firebaseio.com',
+    projectId: 'projectid',
+    storageBucket: 'storageBucket.appspot.com',
+    messagingSenderId: 'messaginSenderId',
+    appId: 'appId'
   }
 };
 
